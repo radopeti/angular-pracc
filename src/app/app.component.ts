@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'udemy-angular-project';
+  path: string;
+
+  onNavigationClicked(event: string) {
+    this.path = event;
+  }
 }

@@ -9,9 +9,15 @@ import { Recipe } from './recipe.model';
 })
 export class RecipesComponent implements OnInit {
 
+  selectedRecipeElement: Recipe;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  setSelectedRecipeElement(recipe: Recipe) {
+    this.selectedRecipeElement = recipe;
   }
 
 }
