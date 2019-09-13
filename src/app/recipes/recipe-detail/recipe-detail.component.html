@@ -15,9 +15,9 @@
         manage recipe
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#" appDropDown>to shopping list</a>
-        <a class="dropdown-item" href="#" appDropDown>edit</a>
-        <a class="dropdown-item" href="#" appDropDown>delete</a>
+        <a class="dropdown-item" (click)="toShoppingList()" appDropDown>to shopping list</a>
+        <a class="dropdown-item" appDropDown>edit</a>
+        <a class="dropdown-item" appDropDown>delete</a>
       </div>
     </div>
   </div>
@@ -29,6 +29,10 @@
 </div>
 <div class="row">
   <div class="col-sm-12">
-    ingredient
+    <ul>
+      <li *ngFor="let ingredient of recipe.ingredients" class="list-group-item">
+      {{ingredient.name}} - {{ingredient.amount}}
+      </li>
+    </ul>
   </div>
 </div>

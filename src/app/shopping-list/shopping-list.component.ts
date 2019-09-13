@@ -6,7 +6,7 @@ import {ShoppingListService} from '../services/shopping-list.service';
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.css'],
-  providers: [ShoppingListService]
+  providers: []
 })
 export class ShoppingListComponent implements OnInit {
 
@@ -18,6 +18,7 @@ export class ShoppingListComponent implements OnInit {
     this.ingredients = this.shoppingListService.getIngredients();
     this.shoppingListService.addItemEmit.subscribe(
       (ingredient: Ingredient) => this.ingredients.push(ingredient));
+    this.shoppingListService.addItemsEmit.subscribe((ingredients) => console.log(ingredients));
   }
 
 }
