@@ -1,3 +1,23 @@
-<p>
-  recipe-edit works!
-</p>
+<div class="row">
+  <div class="col-12">
+    <form (ngSubmit)="onAddRecipe(f)" #f="ngForm">
+      <div class="row">
+        <div class="col-5 form-group">
+          <label>Name</label>
+          <input type="text" id="name" class="form-control" name="name" ngModel>
+        </div>
+        <div class="col-5 form-group">
+          <label>Amount</label>
+          <input type="number" id="amount" class="form-control" name="amount">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button class="btn btn-success" type="button">Add</button>
+          <button class="btn btn-danger" type="button">Delete</button>
+          <button class="btn btn-primary" type="button">Clear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
