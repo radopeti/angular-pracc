@@ -1,12 +1,14 @@
-import {Injectable, Output} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Recipe} from '../recipes/recipe.model';
 import {Ingredient} from '../shared/ingredient.model';
-import {Subject, Subscription} from "rxjs";
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
+
+  private idSeq = 3;
 
   private recipes: Recipe[] = [
     new Recipe(1, 'name',
@@ -25,10 +27,23 @@ export class RecipeService {
   ];
 
   recipeSelected: Subject<Recipe> = new Subject<Recipe>();
+  recipesChanged: Subject<Recipe[]> = new Subject<Recipe[]>();
 
   constructor() { }
 
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  getRecipe(id: number): Recipe {
+    const rec = this.recipes.find((recipe) => recipe.id === id);
+    return rec;
+  }
+
+  addRecipe(recipe: Recipe): void {
+    recipe.id = this.idSeq;
+    this.idSeq++;
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.getRecipes());
   }
 }
