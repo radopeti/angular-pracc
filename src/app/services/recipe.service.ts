@@ -46,4 +46,9 @@ export class RecipeService {
     this.recipes.push(recipe);
     this.recipesChanged.next(this.getRecipes());
   }
+
+  updateRecipe(recipe: Recipe) {
+    Object.assign(this.getRecipe(recipe.id), recipe);
+    this.recipesChanged.next(this.getRecipes());
+  }
 }

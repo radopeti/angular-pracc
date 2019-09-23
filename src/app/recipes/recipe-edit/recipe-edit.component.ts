@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Form, FormArray, FormControl, FormGroup} from '@angular/forms';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {RecipeService} from '../../services/recipe.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Recipe} from '../recipe.model';
 
 @Component({
@@ -14,8 +14,12 @@ export class RecipeEditComponent implements OnInit {
   private id: number;
   private isEditing: boolean;
   private recipeForm: FormGroup;
+  private recipeToEdit: Recipe;
+  private recToUpdate: Recipe;
 
-  constructor(private recipeService: RecipeService, private route: ActivatedRoute) { }
+  constructor(private recipeService: RecipeService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.route.params
@@ -23,13 +27,20 @@ export class RecipeEditComponent implements OnInit {
         this.id = +params.id;
         this.isEditing = params.id != null;
         this.initForm();
-        console.log(this.recipeForm);
     });
   }
 
   onSubmit() {
-    console.log(this.recipeForm.value);
-    this.recipeService.addRecipe(this.recipeForm.value as Recipe);
+    if (this.isEditing) {
+      console.log(this.recipeToEdit);
+      this.recToUpdate = Object.assign({}, this.recipeForm.value);
+      this.recToUpdate.id = this.recipeToEdit.id;
+      this.recipeService.updateRecipe(this.recToUpdate);
+    } else {
+      console.log('add');
+      this.recipeService.addRecipe(this.recipeForm.value as Recipe);
+    }
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   private initForm() {
@@ -39,12 +50,12 @@ export class RecipeEditComponent implements OnInit {
     const recIngredients = new FormArray([]);
 
     if (this.isEditing) {
-      const recipe = this.recipeService.getRecipe(this.id);
-      recipeName = recipe.name;
-      recipeImgPath = recipe.imagePath;
-      recipeDesc = recipe.description;
-      if (recipe.ingredients) {
-        for (const ingredient of recipe.ingredients) {
+      this.recipeToEdit = this.recipeService.getRecipe(this.id);
+      recipeName = this.recipeToEdit.name;
+      recipeImgPath = this.recipeToEdit.imagePath;
+      recipeDesc = this.recipeToEdit.description;
+      if (this.recipeToEdit.ingredients) {
+        for (const ingredient of this.recipeToEdit.ingredients) {
           recIngredients.push(new FormGroup({
             name: new FormControl(ingredient.name),
             amount: new FormControl(ingredient.amount),
